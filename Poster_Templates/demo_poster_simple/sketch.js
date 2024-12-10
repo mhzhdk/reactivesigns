@@ -96,6 +96,7 @@ class TesoTriangle {
    this.y = j * this.h;  
 
    this.active = false; // boolean to determine color
+   this.isBlack = false;
 
  }
 
@@ -109,7 +110,7 @@ class TesoTriangle {
 
 //calling the number arrays to color them
    let isWhite = numberThree.some(item => item[0] === this.i && item[1] === this.j);
-   if (isWhite) {fill(0); } else {fill(255);} //coloring the numbers
+   if (isWhite) {fill(0); this.isBlack = true} else {fill(255); this.isBlack = false} //coloring the numbers
 
 
    // work out the orientation of the triangle based on column and row. 
@@ -120,53 +121,59 @@ class TesoTriangle {
 
 let slider = map(mouseX,0,width,-15,20)
    // draw
-   if (invert) {
+   if (invert) 
+{
 
-let p1 = createVector(0, this.h/2);
-let p2 = createVector(this.w, 0-(this.h/2))
-let p3 = createVector(this.w, this.h+(this.h/2))
+    let p1 = createVector(0, this.h/2);
+    let p2 = createVector(this.w, 0-(this.h/2))
+    let p3 = createVector(this.w, this.h+(this.h/2))
 
-let m = (p2.y-p1.y)/(p2.x-p1.x)
+    let m = (p2.y-p1.y)/(p2.x-p1.x)
 
-let parallelStart = createVector(p1.x+slider, p1.y+slider);
+    let parallelStart = createVector(p1.x+slider, p1.y+slider);
 
-let deltaX = this.w
-let deltaY = m * deltaX
-let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+    let deltaX = this.w
+    let deltaY = m * deltaX
+    let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
-let rectWidth = (parallelEnd.x - parallelStart.x)/2;
-let rectHeight = (parallelEnd.y - parallelStart.y)/2;
+    let rectWidth = (parallelEnd.x - parallelStart.x)/2;
+    let rectHeight = (parallelEnd.y - parallelStart.y)/2;
 
-triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
+    triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
 
-canvas.getContext("2d").clip()
+    canvas.getContext("2d").clip()
 
-for(let i=0; i<10; i++){
-  push()
-  if(i%2==0 && i<5){fill(255,0,0) }else{fill(0,255,0)}   // MODULO HERE
-  // this.drawRectis(parallelStart.x - i * rectWidth, parallelStart.y + i * rectHeight, parallelEnd.x - i * rectWidth, parallelEnd.y + i * rectHeight);
-  this.drawRectis(parallelStart.x+i*offset, parallelStart.y+i*offset, parallelEnd.x+i*offset, parallelEnd.y+i*offset);
-  pop()
+
+    if (isWhite) 
+    {
+        for(let j=0; j<10; j++)
+        {
+          push()
+          if(j%2==0 && j<5){fill(255,0,0) }else{fill(0,255,0)}   
+          // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
+          this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
+          pop()
+        }
+    }
+
+} 
+else 
+{
+    let p4 = createVector(0, 0-(this.h/2))
+    let p5 = createVector(this.w, this.h/2)
+    let p6 = createVector(0, this.h+(this.h/2))
+
+    let m = -(p5.y-p4.y)/(p5.x-p4.x)
+    let parallelStart = createVector(p4.x-20, p4.y);
+
+    let deltaX = 200
+    let deltaY = m * deltaX
+    let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+
+      triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
+
 }
-
-  
-
-   } else {
-let p4 = createVector(0, 0-(this.h/2))
-let p5 = createVector(this.w, this.h/2)
-let p6 = createVector(0, this.h+(this.h/2))
-
-let m = -(p5.y-p4.y)/(p5.x-p4.x)
-let parallelStart = createVector(p4.x-20, p4.y);
-
-let deltaX = 200
-let deltaY = m * deltaX
-let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
-
-   triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
-
-   }
 
    pop();
 
