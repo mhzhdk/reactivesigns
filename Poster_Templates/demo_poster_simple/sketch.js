@@ -1,3 +1,4 @@
+
 let gridCountX = 16;
 
 let gridCountY = 56;
@@ -37,9 +38,14 @@ function setup() {
 
 function draw() {
 
+
+ noStroke();
+
  for(let i = 0; i<triangleList.length; i++) {
 
-   triangleList[i].display();}
+   triangleList[i].display();
+
+ }
 
 
  /*important!*/ poster.posterTasks(); // do not remove this last line! 
@@ -47,20 +53,17 @@ function draw() {
 }
 
 
-function keyPressed() 
-{
- if (keyCode === ENTER) 
-  {
+function keyPressed() {
+
+ if (keyCode === ENTER) {
 
    console.log("[");
 
-     for(let t = 0; t<triangleList.length; t++) 
-    {
+     for(let t = 0; t<triangleList.length; t++) {
 
          let tri = triangleList[t];
 
-         if (tri.active == true) 
-          {
+         if (tri.active == true) {
 
          let i = tri.i;
 
@@ -68,25 +71,26 @@ function keyPressed()
 
          console.log("["+i+","+j+"]"); 
 
-           if (t<triangleList.length-1) 
-            {
+           if (t<triangleList.length-1) {
 
              console.log(","); 
 
-            }
+           }
 
        }
-    }
-    console.log("]");
+
+ }
+
+     console.log("]");
+
  }
 
 }
 
-class TesoTriangle 
-{
 
- constructor(i,j,w,h) 
-  {
+class TesoTriangle {
+
+ constructor(i,j,w,h) {
 
    this.i = i;
 
@@ -106,45 +110,51 @@ class TesoTriangle
 
  
 
- display()
- {
+ display(){
 
-       let distance = dist(this.x+this.w/2,this.y+this.h/2, mouseX, mouseY)
+   if (this.active == true) {
 
-       if (distance < this.w/2) 
-        {
+     fill(0);
 
-         this.active = true;
+     gridArray[this.i][this.j] = 0;
 
-       } 
+   } else {
 
-       if (this.active == true) 
-        {
+     fill(255);
 
-         fill(0)
+     gridArray[this.i][this.j] = 1;
 
-         gridArray[this.i][this.j] = 0;
+   }
 
-       } else 
-       {
-
-         fill(255)
-
-         gridArray[this.i][this.j] = 1;
-
-       }
-
-   this.showTriangle()
-   this.drawParallelLines();
+   this.showTriangle();
 
  }
 
- showTriangle()
- {
+
+ showTriangle(){
+
+   //  rect(this.x,this.y,this.w,this.h)
 
    push();
 
    translate(this.x,this.y)
+
+
+   let isWhite = numberThree.some(item => item[0] === this.i && item[1] === this.j);
+
+
+   // Set color based on whether the triangle should be white
+
+   if (isWhite) {
+
+     fill(0); // white
+
+   } else {
+
+     fill(255); // black
+
+   }
+
 
    // work out the orientation of the triangle based on column and row. 
 
@@ -154,59 +164,21 @@ class TesoTriangle
 
    // draw
 
-   if (invert) 
-    {
+   if (invert) {
 
    triangle(0, this.h/2, this.w, 0-(this.h/2), this.w, this.h+(this.h/2));
 
-   } else 
-   {
+   } else {
 
    triangle(0, 0-(this.h/2), this.w, this.h/2, 0, this.h+(this.h/2));
 
    }
 
    pop();
-  }
 
-   drawParallelLines()
-   {
-    let m = -(this.w / 2); // Example slope value
-    let slider = map(mouseX, 0, width, -100, 100);
-    let parallelStart = createVector(this.x + slider, this.y + slider);
+ }
 
-    let deltaX = 120; // Arbitrary horizontal shift for the parallel line
-    let deltaY = m * deltaX; // Calculate the vertical shift based on the slope
-    let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y + deltaY);
+ 
 
-    // Draw the rectangles (offsets will adjust their position)
-    push();
-    for (let i = 0; i < 5; i++) 
-    {
-      if (i % 2 === 0) 
-      {
-        fill(255); // Adjust the fill based on condition
-      } else {
-        fill(255); // Adjust the fill based on condition
-      }
-      this.drawRectis(parallelStart.x - i * offset, parallelStart.y + i * offset, parallelEnd.x - i * offset, parallelEnd.y + i * offset);
-    }
-    pop();
-  }
-
-  drawRectis(xx, yy, xe, ye) {
-    beginShape();
-    vertex(xx, yy);
-    vertex(xe, ye);
-    vertex(xe - 40, ye - 10);
-    vertex(xx - 40, yy - 10);
-    endShape(CLOSE);
-  }
 }
- 
- 
-
- 
-
-
 
