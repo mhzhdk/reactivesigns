@@ -32,7 +32,8 @@ function setup() {
 
 
 function draw() {
-noStroke();
+// noStroke(); // IN REALIT
+stroke(255); // TO HELP
 
  for(let i = 0; i<triangleList.length; i++) {
 
@@ -99,7 +100,8 @@ class TesoTriangle {
  }
 
  
- showTriangle(){
+ showTriangle()
+ {
 
    push(); // for every triangle new settingBase
 
@@ -116,7 +118,7 @@ class TesoTriangle {
    invert -= this.j%2
 
 
-let slider = map(mouseX,0,width,-100,100)
+let slider = map(mouseX,0,width,-10,10)
    // draw
    if (invert) {
 
@@ -124,15 +126,29 @@ let p1 = createVector(0, this.h/2);
 let p2 = createVector(this.w, 0-(this.h/2))
 let p3 = createVector(this.w, this.h+(this.h/2))
 
-let m = -(p1.y-p2.y)/(p1.x-p2.x)
+let m = (p2.y-p1.y)/(p2.x-p1.x)
 
-let parallelStart = createVector(p3.x+slider, p3.y+slider);
+let parallelStart = createVector(p1.x+slider, p3.y+slider);
 
-let deltaX = 200
+let deltaX = 20
 let deltaY = m * deltaX
 let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
+let rectWidth = (parallelEnd.x - parallelStart.x)/2;
+let rectHeight = (parallelEnd.y - parallelStart.y)/2;
+
 triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
+
+
+canvas.getContext("2d").clip()
+
+for(let i=0; i<10; i++){
+  push()
+  if(i%2==0){fill(255,0,0) }else{fill(0,255,0)}   // MODULO HERE
+  this.drawRectis(parallelStart.x - i * rectWidth, parallelStart.y + i * rectHeight, parallelEnd.x - i * rectWidth, parallelEnd.y + i * rectHeight);
+  pop()
+}
+
   
 
    } else {
@@ -140,8 +156,8 @@ let p4 = createVector(0, 0-(this.h/2))
 let p5 = createVector(this.w, this.h/2)
 let p6 = createVector(0, this.h+(this.h/2))
 
-let m = -(p4.y-p5.y)/(p4.x-p5.x)
-let parallelStart = createVector(p6.x+slider, p6.y+slider);
+let m = -(p5.y-p4.y)/(p5.x-p4.x)
+let parallelStart = createVector(p4.x-20, p4.y);
 
 let deltaX = 200
 let deltaY = m * deltaX
@@ -155,7 +171,23 @@ let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY
 
  }
 
- 
+
+
+
+ drawRectis(xx,yy,xe,ye)
+ {
+  push()
+  noStroke();
+  beginShape();
+  vertex(xx,yy);
+  vertex(xe,ye);
+  vertex (xe-80,ye-40);
+  vertex(xx-80,yy-40)
+  endShape(CLOSE)
+  pop()
+}
+
 
 }
+
 
