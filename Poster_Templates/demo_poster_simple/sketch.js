@@ -1,6 +1,7 @@
 
 let gridCountX = 16;
 let gridCountY = 56;
+let offset = 5;
 
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
 
@@ -114,14 +115,39 @@ class TesoTriangle {
    let invert = this.i%2
    invert -= this.j%2
 
+
+let slider = map(mouseX,0,width,-100,100)
    // draw
    if (invert) {
 
-   triangle(0, this.h/2, this.w, 0-(this.h/2), this.w, this.h+(this.h/2));
+let p1 = createVector(0, this.h/2);
+let p2 = createVector(this.w, 0-(this.h/2))
+let p3 = createVector(this.w, this.h+(this.h/2))
+
+let m = -(p1.y-p2.y)/(p1.x-p2.x)
+
+let parallelStart = createVector(p3.x+slider, p3.y+slider);
+
+let deltaX = 200
+let deltaY = m * deltaX
+let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+
+triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
+  
 
    } else {
+let p4 = createVector(0, 0-(this.h/2))
+let p5 = createVector(this.w, this.h/2)
+let p6 = createVector(0, this.h+(this.h/2))
 
-   triangle(0, 0-(this.h/2), this.w, this.h/2, 0, this.h+(this.h/2));
+let m = -(p4.y-p5.y)/(p4.x-p5.x)
+let parallelStart = createVector(p6.x+slider, p6.y+slider);
+
+let deltaX = 200
+let deltaY = m * deltaX
+let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+
+   triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
 
    }
 
