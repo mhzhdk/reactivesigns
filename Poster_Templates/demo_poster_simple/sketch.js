@@ -1,7 +1,7 @@
 
 let gridCountX = 16;
 let gridCountY = 56;
-let offset = 5;
+let offset = 3;
 
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
 
@@ -118,7 +118,7 @@ class TesoTriangle {
    invert -= this.j%2
 
 
-let slider = map(mouseX,0,width,-10,10)
+let slider = map(mouseX,0,width,-15,20)
    // draw
    if (invert) {
 
@@ -128,9 +128,9 @@ let p3 = createVector(this.w, this.h+(this.h/2))
 
 let m = (p2.y-p1.y)/(p2.x-p1.x)
 
-let parallelStart = createVector(p1.x+slider, p3.y+slider);
+let parallelStart = createVector(p1.x+slider, p1.y+slider);
 
-let deltaX = 20
+let deltaX = this.w
 let deltaY = m * deltaX
 let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
@@ -144,8 +144,9 @@ canvas.getContext("2d").clip()
 
 for(let i=0; i<10; i++){
   push()
-  if(i%2==0){fill(255,0,0) }else{fill(0,255,0)}   // MODULO HERE
-  this.drawRectis(parallelStart.x - i * rectWidth, parallelStart.y + i * rectHeight, parallelEnd.x - i * rectWidth, parallelEnd.y + i * rectHeight);
+  if(i%2==0 && i<5){fill(255,0,0) }else{fill(0,255,0)}   // MODULO HERE
+  // this.drawRectis(parallelStart.x - i * rectWidth, parallelStart.y + i * rectHeight, parallelEnd.x - i * rectWidth, parallelEnd.y + i * rectHeight);
+  this.drawRectis(parallelStart.x+i*offset, parallelStart.y+i*offset, parallelEnd.x+i*offset, parallelEnd.y+i*offset);
   pop()
 }
 
@@ -172,8 +173,6 @@ let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY
  }
 
 
-
-
  drawRectis(xx,yy,xe,ye)
  {
   push()
@@ -181,8 +180,8 @@ let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY
   beginShape();
   vertex(xx,yy);
   vertex(xe,ye);
-  vertex (xe-80,ye-40);
-  vertex(xx-80,yy-40)
+  vertex (xe+40,ye+20);
+  vertex(xx+40,yy+20)
   endShape(CLOSE)
   pop()
 }
