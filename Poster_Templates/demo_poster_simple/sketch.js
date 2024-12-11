@@ -1,20 +1,22 @@
 
 let gridCountX = 16;
-let seed = 12345;
 let gridCountY = 56;
 let offset = 3;
+
+
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
 
 
 let triangleList = [] // this stores the actual TesoTriangle objects
-let isBlackTriangles = [];
+let isBlackTriangles = []; //
 let counter = 0;
 
 function setup() {
 
  /*important!*/ createCanvas(poster.getWindowWidth(), poster.getWindowHeight()); // Don't remove this line.
   /*important!*/ poster.setup(this, "/Poster_Templates/libraries/assets/models/movenet/model.json");  // Don't remove this line.
- createCanvas(1050/2, 1920/2);
+ 
+  createCanvas(1050/2, 1920/2);
  background(100);
 
  for(let i = 0; i<gridCountX; i++) {
@@ -29,10 +31,11 @@ function setup() {
 function draw() {
   
   counter++
-  if (counter ==1){
-  for (let triangle of triangleList) {
-    triangle.randomizer();  // Call randomizer on each triangle instance
-  }
+  if (counter ==1)
+  {
+    for (let i = 0; i < triangleList.length; i++) {
+      triangleList[i].randomizer();
+    }
   }
 
 noStroke(); 
@@ -83,6 +86,8 @@ class TesoTriangle
       // Remove the selected element from the copyArr to avoid duplicates
       copyArr.splice(randomIndex, 1);
     }
+
+
   return randomElements;
   }
 
@@ -95,7 +100,7 @@ class TesoTriangle
       //calling the number arrays to color them
       let willTransitioning = numberThree.some(item => item[0] === this.i && item[1] === this.j);
       if ( willTransitioning) {
-        isBlackTriangles.push(this)
+        isBlackTriangles.push([this.i,this.j])
       }
       let random10 = this.getRandomElements(isBlackTriangles, 10);
       pop()
