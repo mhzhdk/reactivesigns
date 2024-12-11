@@ -3,10 +3,8 @@ let gridCountX = 16;
 let seed = 12345;
 let gridCountY = 56;
 let offset = 3;
-let random10 = [];
-let nameArray = ['1','2','3','4','1','2','3','4','1','2','3','4','1','2','3','4','1','2','3','4'];
-
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
+
 
 let triangleList = [] // this stores the actual TesoTriangle objects
 let isBlackTriangles = [];
@@ -19,35 +17,25 @@ function setup() {
  createCanvas(1050/2, 1920/2);
  background(100);
 
- 
-
  for(let i = 0; i<gridCountX; i++) {
-
      for(let j = 0; j<gridCountY; j++) {
 
-         gridArray[i][j] = 0;
+         gridArray[i][j] = 0; // creates an array with as many arrays as there are tiles (gridCountX * gridCountY)
 
-         triangleList.push(new TesoTriangle(i,j)); 
-
-   }
-
- }
-
-}
+         triangleList.push(new TesoTriangle(i,j)); } // nimmt soviel TesoTrianlges wie es tiles hat und gibt X und Y Coords.
+}}
 
 
 function draw() {
-  randomSeed(seed)
   
   counter++
-  if (counter==10){
-    console.log(random10)
-    console.log(nameArray)
+  if (counter ==1){
+  for (let triangle of triangleList) {
+    triangle.randomizer();  // Call randomizer on each triangle instance
+  }
   }
 
-  //background(255)
-noStroke(); // IN REALIT
-//stroke(255); // TO HELP
+noStroke(); 
 
  for(let i = 0; i<triangleList.length; i++) 
 {
@@ -61,7 +49,6 @@ for(let i =0; i < random10.length; i++){
  /*important!*/ poster.posterTasks(); // do not remove this last line! 
 
 }
-
 
 
 class TesoTriangle 
@@ -78,29 +65,41 @@ class TesoTriangle
 
       this.x = i * this.w; // top left corver coordinates of triangle
       this.y = j * this.h;  
-
-      this.active = false; // boolean to determine color
     }
 
 
     getRandomElements(arr, num) 
-    {
-      var randomElements = [];
-      let copyArr = [...arr]; // Create a copy of the array to avoid modifying the original array
-  
-      for (let i = 0; i < num; i++) {
-          // Get a random index
-          let randomIndex = Math.floor(Math.random() * copyArr.length);
-          
-          // Push the random element (subarray) into the result array
-          randomElements.push(copyArr[randomIndex]);
-  
-          // Remove the selected element from the copyArr to avoid duplicates
-          copyArr.splice(randomIndex, 1);
-      }
-      return randomElements;
+  {
+  var randomElements = [];
+  let copyArr = [...arr]; // Create a copy of the array to avoid modifying the original array
+
+  for (let i = 0; i < num; i++) {
+      // Get a random index
+      let randomIndex = Math.floor(Math.random() * copyArr.length);
+      
+      // Push the random element (subarray) into the result array
+      randomElements.push(copyArr[randomIndex]);
+
+      // Remove the selected element from the copyArr to avoid duplicates
+      copyArr.splice(randomIndex, 1);
     }
-    // NEW CODE END
+  return randomElements;
+  }
+
+    randomizer()
+    {
+      push(); // for every triangle new settingBase
+
+      translate(this.x,this.y)
+
+      //calling the number arrays to color them
+      let willTransitioning = numberThree.some(item => item[0] === this.i && item[1] === this.j);
+      if ( willTransitioning) {
+        isBlackTriangles.push(this)
+      }
+      let random10 = this.getRandomElements(isBlackTriangles, 10);
+      pop()
+    }
 
 
     showTriangle()
@@ -115,23 +114,9 @@ class TesoTriangle
       //calling the number arrays to color them
       let isWhite = numberThree.some(item => item[0] === this.i && item[1] === this.j);
       if (isWhite) 
-       {
-          fill(0); 
-          isBlackTriangles.push(this);
-        } 
-      else 
-        {
-        fill(255); 
-        } //coloring the numbers
+       {fill(0); } 
 
-
-
-      
-      random10 = this.getRandomElements(isBlackTriangles, 10);
-
-
-
-
+    
       // work out the orientation of the triangle based on column and row. 
       // checks if odd or even
       let invert = this.i%2
@@ -185,6 +170,7 @@ class TesoTriangle
 
     }
 
+    
     displayTriangle()
     {
 
@@ -199,18 +185,7 @@ class TesoTriangle
       if (isWhite) 
        {
           fill(0); 
-          isBlackTriangles.push(this);
         } 
-      else 
-        {
-        fill(255); 
-        } //coloring the numbers
-
-
-
-        
-      random10 = this.getRandomElements(isBlackTriangles, 10);
-
 
 
 
@@ -278,12 +253,13 @@ class TesoTriangle
 
           triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
 
-      }
-  
-
+    }
+      
       pop();
+      
 
     }
+
 
 
   drawRectis(xx,yy,xe,ye)
