@@ -209,7 +209,7 @@ class TesoTriangle
 
         let parallelStart = createVector(p1.x, p1.y); //here add slider
 
-        let deltaX = this.w+100
+        let deltaX = this.w+150
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
@@ -271,7 +271,6 @@ class TesoTriangle
         let deltaX = this.w+100
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
-
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
         canvas.getContext("2d").clip()
@@ -280,7 +279,7 @@ class TesoTriangle
           push()
           if(j%2==0 && j<5){fill(0) }else{fill(255)} 
 
-          // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
+          // THESE RECTANGLES ARE CORRECT
           this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
           pop()
         }
@@ -293,7 +292,7 @@ class TesoTriangle
         let p5 = createVector(this.w, this.h/2)
         let p6 = createVector(0, this.h+(this.h/2))
 
-        let m = -(p5.y-p4.y)/(p5.x-p4.x)
+        let m = (p5.y-p4.y)/(p5.x-p4.x)
 
         let parallelStart = createVector(p4.x-20+slider, p4.y+slider);
 
