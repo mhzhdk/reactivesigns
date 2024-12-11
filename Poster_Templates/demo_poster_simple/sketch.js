@@ -2,11 +2,14 @@
 let gridCountX = 16;
 let gridCountY = 56;
 let offset = 3;
+let random10 = [];
+let nameArray = ['1','2','3','4','1','2','3','4','1','2','3','4','1','2','3','4','1','2','3','4'];
 
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
 
 let triangleList = [] // this stores the actual TesoTriangle objects
 let isBlackTriangles = [];
+let counter = 0;
 
 function setup() {
 
@@ -33,8 +36,15 @@ function setup() {
 
 
 function draw() {
-// noStroke(); // IN REALIT
-stroke(255); // TO HELP
+  counter++
+  if (counter==10){
+    console.log(random10)
+    console.log(nameArray)
+  }
+
+  //background(255)
+noStroke(); // IN REALIT
+//stroke(255); // TO HELP
 
  for(let i = 0; i<triangleList.length; i++) 
 {
@@ -45,30 +55,6 @@ stroke(255); // TO HELP
  /*important!*/ poster.posterTasks(); // do not remove this last line! 
 
 }
-
-
-
-/*
-function keyPressed() {
- if (keyCode === ENTER) {
-   console.log("[");
-     for(let t = 0; t<triangleList.length; t++) {
-
-         let tri = triangleList[t];
-         if (tri.active == true) {
-         let i = tri.i;
-         let j = tri.j;
-
-         console.log("["+i+","+j+"]"); 
-
-           if (t<triangleList.length-1) {
-
-             console.log(","); 
-       }}}
-
-     console.log("]");
-    }}
-*/
 
 
 class TesoTriangle 
@@ -90,10 +76,9 @@ class TesoTriangle
     }
 
 
-    //NEW CODE FOR RANDOMNESS - NOT YET VERIFIED
     getRandomElements(arr, num) 
     {
-      let randomElements = [];
+      var randomElements = [];
       let copyArr = [...arr]; // Create a copy of the array to avoid modifying the original array
   
       for (let i = 0; i < num; i++) {
@@ -109,7 +94,6 @@ class TesoTriangle
       return randomElements;
     }
     // NEW CODE END
-
 
 
     showTriangle()
@@ -135,10 +119,8 @@ class TesoTriangle
 
 
 
-      // ATTENTION
-      let random10 = this.getRandomElements(isBlackTriangles, 10);
-      let isTheReal = random10.some(item => item.i === this.i && item.j === this.j);
-      // ATTENTION
+        
+      random10 = this.getRandomElements(isBlackTriangles, 10);
 
 
 
@@ -149,7 +131,7 @@ class TesoTriangle
       invert -= this.j%2
 
 
-      let slider = map(mouseX,0,width,-15,20)
+      let slider = map(mouseX,0,width,-20,20)
       // draw
       if (invert) 
       {
@@ -162,12 +144,13 @@ class TesoTriangle
 
         let parallelStart = createVector(p1.x+slider, p1.y+slider);
 
-        let deltaX = this.w
+        let deltaX = this.w+100
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
         let rectWidth = (parallelEnd.x - parallelStart.x)/2;
         let rectHeight = (parallelEnd.y - parallelStart.y)/2;
+
 
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
@@ -175,12 +158,12 @@ class TesoTriangle
         canvas.getContext("2d").clip()
 
 
-        if(isTheReal)
+        if(isWhite)
           {
                 for(let j=0; j<10; j++)
                 {
                   push()
-                  if(j%2==0 && j<5){fill(255,0,0) }else{fill(0,255,0)} 
+                  if(j%2==0 && j<5){fill(0) }else{fill(255)} 
         
                   // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
                   this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
@@ -190,6 +173,7 @@ class TesoTriangle
           }
 
       }
+
       else 
       {
         let p4 = createVector(0, 0-(this.h/2))
@@ -206,6 +190,7 @@ class TesoTriangle
           triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
 
       }
+  
 
       pop();
 
@@ -227,5 +212,7 @@ class TesoTriangle
 
 
 }
+
+
 
 
