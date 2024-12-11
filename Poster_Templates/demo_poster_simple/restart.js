@@ -1,6 +1,9 @@
 let gridCountX = 16;
 let gridCountY = 56;
 let counter = 0; // to avoid unwanted looping
+let offset = 5;
+
+let NUMtransTiles = 40;
 
     //                    16x56 grid of null values
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
@@ -117,8 +120,8 @@ function shuffleAndSplitTiles()
   shuffleArray(matchingTiles);  // we call the shuffle function
   
   // Split the shuffled array into transTiles and staticTiles
-  transTiles = matchingTiles.slice(0, 10);  // First 10 elements
-  staticTiles = matchingTiles.slice(10);    // The rest of the elements
+  transTiles = matchingTiles.slice(0, NUMtransTiles);  // First 10 elements
+  staticTiles = matchingTiles.slice(NUMtransTiles);    // The rest of the elements
 
 // console.log("transTiles:", transTiles);  checked, working
 //console.log("staticTiles:", staticTiles); checked, working
@@ -249,10 +252,11 @@ class TesoTriangle
       let invert = this.rIndex%2 // calculates Orientation
       invert -= this.cIndex%2
 
-      //let slider = map(mouseX,0,width,-20,20) //to create INTERACTION
+      let slider = map(mouseX,0,width,-20,20) //to create INTERACTION
+
 
 // THIS IS THE CODE TO DRAW THE ACTUAL DYNAMIC TRIANGLE!!!
-      // IF POINTING LEFT
+// IF POINTING LEFT
       if (invert) 
       {
 
@@ -262,13 +266,24 @@ class TesoTriangle
 
         let m = (p2.y-p1.y)/(p2.x-p1.x)
 
-        let parallelStart = createVector(p1.x, p1.y); //here add slider
+        let parallelStart = createVector(p1.x+slider, p1.y+slider); //here add slider
 
         let deltaX = this.w+100
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
+
+        canvas.getContext("2d").clip()
+        for(let j=0; j<10; j++)
+        {
+          push()
+          if(j%2==0 && j<5){fill(0) }else{fill(255)} 
+
+          // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
+          this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
+          pop()
+        }
 
       }
       // IF POINTING RIGHT
@@ -280,13 +295,25 @@ class TesoTriangle
 
         let m = -(p5.y-p4.y)/(p5.x-p4.x)
 
-        let parallelStart = createVector(p4.x-20, p4.y);
+        let parallelStart = createVector(p4.x-20+slider, p4.y+slider);
 
         let deltaX = 200
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
         triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
+        
+        
+        canvas.getContext("2d").clip()
+        for(let j=0; j<10; j++)
+        {
+          push()
+          if(j%2==0 && j<5){fill(0) }else{fill(255)} 
+
+          // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
+          this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
+          pop()
+        }
 
       }
       pop();
