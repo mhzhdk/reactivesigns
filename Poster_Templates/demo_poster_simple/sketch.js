@@ -38,6 +38,7 @@ function setup() {
 
 function draw() {
   randomSeed(seed)
+  
   counter++
   if (counter==10){
     console.log(random10)
@@ -60,6 +61,7 @@ for(let i =0; i < random10.length; i++){
  /*important!*/ poster.posterTasks(); // do not remove this last line! 
 
 }
+
 
 
 class TesoTriangle 
