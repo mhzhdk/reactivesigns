@@ -178,19 +178,8 @@ class TesoTriangle
       push(); // for every triangle new settingBase
 
       translate(this.x,this.y)
+      
 
-
-      //calling the number arrays to color them
-      let isWhite = numberThree.some(item => item[0] === this.i && item[1] === this.j);
-      if (isWhite) 
-       {
-          fill(0); 
-        } 
-
-
-
-      // work out the orientation of the triangle based on column and row. 
-      // checks if odd or even
       let invert = this.i%2
       invert -= this.j%2
 
@@ -222,8 +211,7 @@ class TesoTriangle
         canvas.getContext("2d").clip()
 
 
-        if(isWhite)
-          {
+
                 for(let j=0; j<10; j++)
                 {
                   push()
@@ -234,7 +222,7 @@ class TesoTriangle
                   pop()
                 }
             
-          }
+          
 
       }
 
