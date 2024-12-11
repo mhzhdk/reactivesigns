@@ -3,7 +3,7 @@ let gridCountY = 56;
 let counter = 0; // to avoid unwanted looping
 let offset = 5;
 
-let NUMtransTiles = 40;
+let NUMtransTiles = 100;
 
     //                    16x56 grid of null values
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
@@ -252,14 +252,14 @@ class TesoTriangle
       let invert = this.rIndex%2 // calculates Orientation
       invert -= this.cIndex%2
 
-      let slider = map(mouseX,0,width,-20,20) //to create INTERACTION
+      
 
 
 // THIS IS THE CODE TO DRAW THE ACTUAL DYNAMIC TRIANGLE!!!
 // IF POINTING LEFT
       if (invert) 
       {
-
+        let slider = map(mouseX,0,width,-30,20) //to create INTERACTION
         let p1 = createVector(0, this.h/2);
         let p2 = createVector(this.w, 0-(this.h/2))
         let p3 = createVector(this.w, this.h+(this.h/2))
@@ -271,10 +271,12 @@ class TesoTriangle
         let deltaX = this.w+100
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+        
+        noStroke()
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
         canvas.getContext("2d").clip()
-        for(let j=0; j<10; j++)
+        for(let j=0; j<12; j++)
         {
           push()
           if(j%2==0 && j<5){fill(0) }else{fill(255)} 
@@ -288,23 +290,24 @@ class TesoTriangle
       // IF POINTING RIGHT
       else 
       {
+        let slider = map(mouseX,0,width,-30,20) //to create INTERACTION
         let p4 = createVector(0, 0-(this.h/2))
         let p5 = createVector(this.w, this.h/2)
         let p6 = createVector(0, this.h+(this.h/2))
 
-        let m = (p5.y-p4.y)/(p5.x-p4.x)
-
-        let parallelStart = createVector(p4.x-20+slider, p4.y+slider);
+        let m = (p5.y-p6.y)/(p5.x-p6.x)
+        let parallelStart = createVector(p6.x+slider-20, p6.y + slider);
 
         let deltaX = 200
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
+        noStroke()
         triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
         
         
         canvas.getContext("2d").clip()
-        for(let j=0; j<10; j++)
+        for(let j=0; j<12; j++)
         {
           push()
           if(j%2==0 && j<5){fill(0) }else{fill(255)} 
