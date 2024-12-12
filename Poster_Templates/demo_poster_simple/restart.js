@@ -213,6 +213,7 @@ class TesoTriangle
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
 
+        stroke(0)
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
       }
@@ -230,6 +231,7 @@ class TesoTriangle
         let deltaX = 200
         let deltaY = m * deltaX
         let parallelEnd = createVector(parallelStart.x + deltaX, parallelStart.y +deltaY)
+
 
         triangle(p4.x,p4.y, p5.x,p5.y,p6.x,p6.y);
 
@@ -276,7 +278,7 @@ class TesoTriangle
         triangle(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)
 
         canvas.getContext("2d").clip()
-        for(let j=0; j<12; j++)
+        for(let j=0; j<16; j++)
         {
           push()
           if(j%2==0 && j<5){fill(0) }else{fill(255)} 
@@ -307,19 +309,27 @@ class TesoTriangle
         
         
         canvas.getContext("2d").clip()
-        for(let j=0; j<12; j++)
+        for(let j=0; j<16; j++)
         {
           push()
-          if(j%2==0 && j<5){fill(0) }else{fill(255)} 
+          if(j%2==0 && j<5){fill(0) }else {fill(255)} 
 
-          // this.drawRectis(parallelStart.x - j * rectWidth, parallelStart.y + j * rectHeight, parallelEnd.x - j * rectWidth, parallelEnd.y + j * rectHeight);
-          this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
+          //this.drawRectis(parallelStart.x+j*offset, parallelStart.y+j*offset, parallelEnd.x+j*offset, parallelEnd.y+j*offset);
+          
+          let mirrorLine = this.w / 2;
+          let mirroredParallelStart = createVector(2 * mirrorLine - parallelStart.x, parallelStart.y);
+          let mirroredParallelEnd = createVector(2 * mirrorLine - parallelEnd.x, parallelEnd.y);
+          
+          // Draw the mirrored shape
+          this.drawRectis(mirroredParallelStart.x + j * offset, mirroredParallelStart.y + j * offset, 
+                          mirroredParallelEnd.x + j * offset, mirroredParallelEnd.y + j * offset);
+          
           pop()
         }
 
       }
       pop();
-
+stroke 
     }
 
     drawRectis(xx,yy,xe,ye)
@@ -329,8 +339,8 @@ class TesoTriangle
       beginShape();
       vertex(xx,yy);
       vertex(xe,ye);
-      vertex (xe+40,ye+20);
-      vertex(xx+40,yy+20)
+      vertex (xe+20,ye+40);
+      vertex(xx+20,yy+40)
       endShape(CLOSE)
       pop()
     }
