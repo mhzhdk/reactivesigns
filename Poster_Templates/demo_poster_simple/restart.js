@@ -2,8 +2,8 @@ let gridCountX = 16;
 let gridCountY = 56;
 let counter = 0; // to avoid unwanted looping
 let offset = 5;
-
 let NUMtransTiles = 100;
+
 
     //                    16x56 grid of null values
 let gridArray = Array(gridCountX).fill().map(()=> Array(gridCountY).fill(null));
